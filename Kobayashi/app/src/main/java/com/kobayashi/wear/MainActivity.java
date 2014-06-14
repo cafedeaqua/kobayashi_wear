@@ -43,7 +43,10 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
         setContentView(R.layout.activity_main);
         textView = (TextView)findViewById(R.id.textView);
 
-        String token = getIntent().getStringExtra(BUNDLE_KEY);
+        Intent intent = getIntent();
+        String token = intent.getDataString();
+        //String token = getIntent().getStringExtra(BUNDLE_KEY);
+
 //        diplayMorse(token);
 
         mTts = new TextToSpeech(this, this);
@@ -60,8 +63,9 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.v(TAG, "newIntent");
-        String token = getIntent().getStringExtra(BUNDLE_KEY);
-//        diplayMorse(token);
+
+        String token = intent.getDataString();
+        diplayMorse(token);
 
     }
 
@@ -115,14 +119,16 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
         String eventMessate = new Date().toString();
 
         Intent viewIntent1 = new Intent(this, MainActivity.class);
-//        Uri uri = Uri.parse();
-  //      viewIntent1.setData();
         viewIntent1.putExtra("eventId", eventId);
         viewIntent1.putExtra(BUNDLE_KEY, "1");
+        Uri uri1 = Uri.parse("1");
+        viewIntent1.setData(uri1);
         PendingIntent viewPendingIntent1 =
                 PendingIntent.getActivity(this, 0, viewIntent1, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent viewIntent3 = new Intent(this, MainActivity.class);
+        Uri uri3 = Uri.parse("3");
+        viewIntent3.setData(uri3);
         viewIntent3.putExtra("eventId", eventId);
         viewIntent3.putExtra(BUNDLE_KEY, "3");
         PendingIntent viewPendingIntent3 =
