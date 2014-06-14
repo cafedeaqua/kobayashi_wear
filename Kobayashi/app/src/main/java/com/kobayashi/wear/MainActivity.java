@@ -159,6 +159,7 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
                 mTts.stop();
             }// 読み上げ開始
              mTts.speak(speechString, TextToSpeech.QUEUE_FLUSH, null);
+            sendWearNotification(speechString);
         }
     }
 
