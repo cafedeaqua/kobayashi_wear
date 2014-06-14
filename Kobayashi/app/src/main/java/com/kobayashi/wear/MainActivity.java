@@ -1,22 +1,25 @@
 package com.kobayashi.wear;
 
+import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.preview.support.v4.app.NotificationManagerCompat;
+import android.preview.support.wearable.notifications.RemoteInput;
+import android.preview.support.wearable.notifications.WearableNotifications;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import android.widget.Toast;
-
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Locale;
@@ -30,6 +33,8 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
     public static final String BUNDLE_KEY = "token";
     TextView textView;
 
+    private BroadcastReceiver mReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,13 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
 //        diplayMorse(token);
 
         mTts = new TextToSpeech(this, this);
+
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                processTweet(intent);
+            }
+        };
     }
 
     @Override
@@ -51,6 +63,17 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, new IntentFilter(Constants.ACTION_WEAR_RESPONSE));
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(mReceiver);
+        super.onPause();
+    }
 
 
     @Override
@@ -156,4 +179,43 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
            mTts.shutdown();
            }
      }
+
+    /**
+     *
+     * Tweetするメッセージを表示するNotificationをWearに表示する
+     *
+     * @param Tweetmessage Tweet Message
+     */
+    public void sendWearNotification(String Tweetmessage) {
+        Intent intent = new Intent(Constants.ACTION_WEAR_RESPONSE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
+                intent, 0);
+
+        // Create Tweet Message Notification
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
+                this).setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(getString(R.string.tweet_message_title))
+                .setContentText(Tweetmessage).setContentIntent(pendingIntent);
+
+        // Create the Voice input
+        Notification notification = new WearableNotifications.Builder(
+                notificationBuilder)
+                .setMinPriority()
+                .addRemoteInputForContentIntent(
+                        new RemoteInput.Builder(Constants.EXTRA_REPLY).setLabel(
+                                getString(R.string.reply)).build()).build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat
+                .from(this);
+        notificationManager.notify(1, notification);
+    }
+
+    private void processTweet(Intent intent) {
+        String text = intent.getStringExtra(Constants.EXTRA_REPLY);
+
+        if (!TextUtils.isEmpty(text) && Constants.REPLY_MESSAGE.equalsIgnoreCase(text)) {
+            // TODO Tweet処理
+            Log.d("DebugLog", "OK,Tweet");
+        }
+    }
 }
