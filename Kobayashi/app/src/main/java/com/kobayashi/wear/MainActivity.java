@@ -29,7 +29,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements TextToSpeech.OnInitListener {
 
     private TextToSpeech mTts;
-    String SOS_TEXT ="S O S";
+    String SOS_TEXT = "S O S";
 
     private static final String TAG = "(´・ω・｀)";
     public static final String BUNDLE_KEY = "token";
@@ -41,7 +41,7 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = (TextView)findViewById(R.id.textView);
+        textView = (TextView) findViewById(R.id.textView);
 
         Intent intent = getIntent();
         String token = intent.getDataString();
@@ -101,23 +101,23 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
         return super.onOptionsItemSelected(item);
     }
 
-    private void diplayMorse(String token){
+    private void diplayMorse(String token) {
 
         Log.v(TAG, "token:" + token);
         String text = textView.getText().toString();
-        if(token.equals(Constants.END)){
+        if (token.equals(Constants.END)) {
             speechText(text);
-        }else {
+        } else {
             text = text + token;
             textView.setText(text);
         }
     }
 
-    public void onClcikNotificationButton(View v){
+    public void onClcikNotificationButton(View v) {
         sendNotification();
     }
 
-    private void sendNotification(){
+    private void sendNotification() {
         int notificationId = 001;
         int eventId = 1;
         String eventTitle = "Morse";
@@ -152,7 +152,6 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
                 PendingIntent.getActivity(this, 0, viewIntentEnd, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
@@ -162,8 +161,7 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
                         .addAction(R.drawable.one, "1", viewPendingIntent1)
                         .addAction(R.drawable.three, "3", viewPendingIntent3)
                         .addAction(R.drawable.zero, "space", viewPendingIntentSpace)
-                        .addAction(R.drawable.end, "end", viewPendingIntentEnd)
-                ;
+                        .addAction(R.drawable.end, "end", viewPendingIntentEnd);
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(this);
@@ -173,7 +171,7 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
 
     }
 
-    public void onClcikSpeech(View v){
+    public void onClcikSpeech(View v) {
         String string = SOS_TEXT;
         speechText(SOS_TEXT);
     }
@@ -186,7 +184,7 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
                 // 読み上げ中なら止める
                 mTts.stop();
             }// 読み上げ開始
-             mTts.speak(speechString, TextToSpeech.QUEUE_FLUSH, null);
+            mTts.speak(speechString, TextToSpeech.QUEUE_FLUSH, null);
             sendWearNotification(speechString);
         }
     }
@@ -209,13 +207,12 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
     protected void onDestroy() {
         super.onDestroy();
         if (null != mTts) {
-           // TextToSpeechのリソースを解放する
-           mTts.shutdown();
-           }
-     }
+            // TextToSpeechのリソースを解放する
+            mTts.shutdown();
+        }
+    }
 
     /**
-     *
      * Tweetするメッセージを表示するNotificationをWearに表示する
      *
      * @param Tweetmessage Tweet Message
@@ -237,7 +234,8 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
                 .setMinPriority()
                 .addRemoteInputForContentIntent(
                         new RemoteInput.Builder(Constants.EXTRA_REPLY).setLabel(
-                                getString(R.string.reply)).build()).build();
+                                getString(R.string.reply)).build()
+                ).build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat
                 .from(this);
