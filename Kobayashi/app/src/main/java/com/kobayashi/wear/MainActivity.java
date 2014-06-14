@@ -250,7 +250,9 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
         if (!TextUtils.isEmpty(text) && Constants.REPLY_MESSAGE.equalsIgnoreCase(text)) {
             Log.d("DebugLog", "OK,Tweet");
 
-            String url = "http://twitter.com/share?text=" + SOS_TEXT;
+            String text = textView.getText().toString();
+
+            String url = "http://twitter.com/share?text=" + text;
             Intent tweetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(tweetIntent);
         }
