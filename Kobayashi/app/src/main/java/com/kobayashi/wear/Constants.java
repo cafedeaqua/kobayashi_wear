@@ -8,4 +8,9 @@ public class Constants {
     public static String DASHS = "3";
     public static String SPACE = " ";
     public static String END = "-EOF-";
+
+    public static final String EXTRA_REPLY = "reply";
+
+    public static final String ACTION_WEAR_RESPONSE = "com.kobayashi.wear.action.REPLY";
+
 }
