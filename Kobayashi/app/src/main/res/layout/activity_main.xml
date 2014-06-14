@@ -17,6 +17,7 @@
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true" />
 
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,4 +25,15 @@
         android:id="@+id/buttonSpeech"
         android:onClick="onClcikSpeech"
         android:layout_below="@+id/button"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_below="@+id/buttonSpeech"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
