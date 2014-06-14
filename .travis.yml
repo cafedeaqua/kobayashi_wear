@@ -13,5 +13,6 @@ before_script:
   - ./wait_for_emulator
 
 script:
+  - chmod +x ./Kobayashi/gradlew
   - ./Kobayashi/gradlew build
   
