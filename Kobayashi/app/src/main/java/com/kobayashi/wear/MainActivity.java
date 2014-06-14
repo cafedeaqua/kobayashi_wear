@@ -28,6 +28,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements TextToSpeech.OnInitListener {
 
     private TextToSpeech mTts;
+    String mSpeechString="S O S";
 
     private static final String TAG = "(´・ω・｀)";
     public static final String BUNDLE_KEY = "token";
@@ -145,15 +146,15 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
     }
 
     public void onClcikSpeech(View v){
-        String string="S O S";
-        Toast.makeText(this, string +":onClcikSpeech()", Toast.LENGTH_LONG).show();
 
-        if (0 < string.length()) {
+        Toast.makeText(this, mSpeechString +":onClcikSpeech()", Toast.LENGTH_LONG).show();
+
+        if (0 < mSpeechString.length()) {
             if (mTts.isSpeaking()) {
                 // 読み上げ中なら止める
                 mTts.stop();
             }// 読み上げ開始
-             mTts.speak(string, TextToSpeech.QUEUE_FLUSH, null);
+             mTts.speak(mSpeechString, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
