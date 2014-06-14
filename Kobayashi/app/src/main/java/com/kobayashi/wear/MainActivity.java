@@ -1,10 +1,9 @@
 package com.kobayashi.wear;
 
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.preview.support.v4.app.NotificationManagerCompat;
-import android.preview.support.wearable.notifications.WearableNotifications;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,18 +11,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.Date;
+import java.util.Locale;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements TextToSpeech.OnInitListener {
+
+    private TextToSpeech mTts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mTts = new TextToSpeech(this, this);
     }
+
+
 
 
     @Override
@@ -84,4 +90,40 @@ public class MainActivity extends ActionBarActivity {
     private void sendNotification(){
 
     }
+
+    public void onClcikSpeech(View v){
+        String string="S O S";
+        Toast.makeText(this, string +":onClcikSpeech()", Toast.LENGTH_LONG).show();
+
+        if (0 < string.length()) {
+            if (mTts.isSpeaking()) {
+                // 読み上げ中なら止める
+                mTts.stop();
+            }// 読み上げ開始
+             mTts.speak(string, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (TextToSpeech.SUCCESS == status) {
+            Locale locale = Locale.ENGLISH;
+            if (mTts.isLanguageAvailable(locale) >= TextToSpeech.LANG_AVAILABLE) {
+                mTts.setLanguage(locale);
+            } else {
+                Log.d("", "Error SetLocale");
+            }
+        } else {
+            Log.d("", "Error Init");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != mTts) {
+           // TextToSpeechのリソースを解放する
+           mTts.shutdown();
+           }
+     }
 }
