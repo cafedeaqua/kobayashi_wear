@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preview.support.v4.app.NotificationManagerCompat;
 import android.preview.support.wearable.notifications.RemoteInput;
@@ -220,8 +221,11 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
         String text = intent.getStringExtra(Constants.EXTRA_REPLY);
 
         if (!TextUtils.isEmpty(text) && Constants.REPLY_MESSAGE.equalsIgnoreCase(text)) {
-            // TODO Tweet処理
             Log.d("DebugLog", "OK,Tweet");
+
+            String url = "http://twitter.com/share?text=" + SOS_TEXT;
+            Intent tweetIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(tweetIntent);
         }
     }
 }
