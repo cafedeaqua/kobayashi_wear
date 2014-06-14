@@ -102,10 +102,15 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
     }
 
     private void diplayMorse(String token){
+
         Log.v(TAG, "token:" + token);
         String text = textView.getText().toString();
-        text = text + token;
-        textView.setText(text);
+        if(token.equals(Constants.END)){
+            speechText(text);
+        }else {
+            text = text + token;
+            textView.setText(text);
+        }
     }
 
     public void onClcikNotificationButton(View v){
@@ -134,6 +139,20 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
         PendingIntent viewPendingIntent3 =
                 PendingIntent.getActivity(this, 0, viewIntent3, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        Intent viewIntentSpace = new Intent(this, MainActivity.class);
+        Uri uriSpace = Uri.parse(Constants.SPACE);
+        viewIntentSpace.setData(uriSpace);
+        PendingIntent viewPendingIntentSpace =
+                PendingIntent.getActivity(this, 0, viewIntentSpace, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Intent viewIntentEnd = new Intent(this, MainActivity.class);
+        Uri uriEnd = Uri.parse(Constants.END);
+        viewIntentEnd.setData(uriEnd);
+        PendingIntent viewPendingIntentEnd =
+                PendingIntent.getActivity(this, 0, viewIntentEnd, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_launcher)
@@ -142,6 +161,8 @@ public class MainActivity extends ActionBarActivity implements TextToSpeech.OnIn
                         .setContentIntent(viewPendingIntent1)
                         .addAction(R.drawable.one, "1", viewPendingIntent1)
                         .addAction(R.drawable.three, "3", viewPendingIntent3)
+                        .addAction(R.drawable.zero, "space", viewPendingIntentSpace)
+                        .addAction(R.drawable.end, "end", viewPendingIntentEnd)
                 ;
 
         NotificationManagerCompat notificationManager =
