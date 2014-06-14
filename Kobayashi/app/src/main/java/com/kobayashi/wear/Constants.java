@@ -13,4 +13,5 @@ public class Constants {
 
     public static final String ACTION_WEAR_RESPONSE = "com.kobayashi.wear.action.REPLY";
 
+    public static final String REPLY_MESSAGE = "OK,Tweet";
 }
