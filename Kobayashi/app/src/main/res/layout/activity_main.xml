@@ -9,11 +9,19 @@
     tools:context="com.kobayashi.wear.MainActivity">
 
     <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Send Notification"
+    android:id="@+id/button"
+    android:onClick="onClcikNotificationButton"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true" />
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Notification"
-        android:id="@+id/button"
-        android:onClick="onClcikNotificationButton"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Speech Test"
+        android:id="@+id/buttonSpeech"
+        android:onClick="onClcikSpeech"
+        android:layout_below="@+id/button"/>
 </RelativeLayout>
