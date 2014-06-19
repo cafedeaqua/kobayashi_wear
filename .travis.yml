@@ -14,5 +14,6 @@ before_script:
 
 script:
   - chmod +x ./Kobayashi/gradlew
+  - ./Kobayashi/gradlew tasks
   - ./Kobayashi/gradlew assemble
   
